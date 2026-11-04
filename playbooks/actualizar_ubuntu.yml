@@ -1,0 +1,23 @@
+
+---
+- name: Administracion de Ubuntu
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Actualizar cache de paquetes
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Actualizar paquetes instalados
+      ansible.builtin.apt:
+        upgrade: safe
+
+    - name: Consultar hostname
+      ansible.builtin.command: hostname
+      register: hostname_result
+
+    - name: Mostrar hostname
+      ansible.builtin.debug:
+        msg: "Servidor administrado: {{ hostname_result.stdout }}"
